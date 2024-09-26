@@ -1,0 +1,25 @@
+<div class="filter-buttons">
+  <button (click)="cambiarFiltro('todas')">Todas</button>
+  <button (click)="cambiarFiltro('completadas')">Completadas</button>
+  <button (click)="cambiarFiltro('pendientes')">Pendientes</button>
+</div>
+
+<div class="task-list-container" >
+  <div class="task-card" *ngFor="let task of tareasFiltradas; let i = index" [ngClass]="{'completed': task.completed}">
+    <h2>{{ task.titulo }}</h2>
+    <p>Fecha Límite: {{ task.fechaLimite | date }}</p>
+    <p><strong>Estado:</strong> {{ task.completed ? 'Completada' : 'Pendiente' }}</p>
+
+    <h3>Personas Asociadas:</h3>
+    <ul>
+      <li *ngFor="let person of task.personas">
+        {{ person.nombre }} (Edad: {{ person.edad }}) - Habilidades: {{ person.habilidades.join(', ') }}
+      </li>
+    </ul>
+
+    <div class="task-card-actions">
+      <button (click)="markAsCompleted(task)" [disabled]="task.completed">Marcar como Completada</button>
+      <button (click)="deleteTask(task.id)">Eliminar Tarea</button>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,42 @@
-/* You can add global styles to this file, and also import other style files */
+/* Estilos básicos para móviles (Mobile First) */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+input,
+button {
+  padding: 8px;
+  font-size: 16px;
+}
+
+h2 {
+  font-size: 18px;
+}
+
+@media (min-width: 768px) {
+  /* Estilos para tabletas y pantallas más grandes */
+  form {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Estilos para pantallas grandes */
+  form {
+    max-width: 800px;
+  }
+}

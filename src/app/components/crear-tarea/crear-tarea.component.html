@@ -1,0 +1,55 @@
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="titulo">Título de la Tarea:</label>
+    <input id="titulo" formControlName="titulo" />
+    <div *ngIf="taskForm.controls['titulo']?.invalid && taskForm.controls['titulo']?.touched" class="error-message">
+      <small *ngIf="taskForm.controls['titulo']?.errors?.['required']">El título es obligatorio.</small>
+      <small *ngIf="taskForm.controls['titulo']?.errors?.['minlength']">El título debe tener al menos 3 caracteres.</small>
+    </div>
+  </div>
+
+  <div>
+    <label for="fechaLimite">Fecha Límite:</label>
+    <input type="date" id="fechaLimite" formControlName="fechaLimite" />
+    <div *ngIf="taskForm.controls['fechaLimite']?.invalid && taskForm.controls['fechaLimite']?.touched" class="error-message">
+      <small *ngIf="taskForm.controls['fechaLimite']?.errors?.['required']">La fecha límite es obligatoria.</small>
+    </div>
+  </div>
+
+  <div formArrayName="personas">
+    <div *ngFor="let persona of personas.controls; let i = index" [formGroupName]="i">
+      <h3>Persona {{ i + 1 }}</h3>
+      
+      <label>Nombre Completo:</label>
+      <input formControlName="nombre" />
+      <div *ngIf="persona.get('nombre')?.invalid && persona.get('nombre')?.touched" class="error-message">
+        <small *ngIf="persona.get('nombre')?.errors?.['required']">El nombre completo es obligatorio.</small>
+        <small *ngIf="persona.get('nombre')?.errors?.['minlength']">El nombre debe tener al menos 5 caracteres.</small>
+      </div>
+
+      <label>Edad:</label>
+      <input type="number" formControlName="edad" />
+      <div *ngIf="persona.get('edad')?.invalid && persona.get('edad')?.touched" class="error-message">
+        <small *ngIf="persona.get('edad')?.errors?.['required']">La edad es obligatoria.</small>
+        <small *ngIf="persona.get('edad')?.errors?.['min']">La persona debe tener al menos 18 años.</small>
+      </div>
+
+      <div formArrayName="habilidades">
+        <h4>Habilidades</h4>
+        <div *ngFor="let skill of getSkills(i).controls; let j = index">
+          <input [formControlName]="j" placeholder="Habilidad" />
+          <div *ngIf="skill?.invalid && skill?.touched" class="error-message">
+            <small *ngIf="skill?.errors?.['required']">La habilidad es obligatoria.</small>
+          </div>
+          <button type="button" (click)="removeSkill(i, j)">Eliminar habilidad</button>
+        </div>
+        <button type="button" (click)="addSkill(i)">Agregar Habilidad</button>
+      </div>
+
+      <button type="button" (click)="removePerson(i)">Eliminar Persona</button>
+    </div>
+  </div>
+
+  <button type="button" (click)="addPerson()">Agregar Persona</button>
+  <button type="submit" [disabled]="taskForm.invalid">Crear Tarea</button>
+</form>
